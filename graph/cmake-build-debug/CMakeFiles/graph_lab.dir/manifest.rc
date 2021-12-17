@@ -1,0 +1,2 @@
+#pragma code_page(65001)
+1 /* CREATEPROCESS_MANIFEST_RESOURCE_ID */ 24 /* RT_MANIFEST */ "D:/dev/cpp_projects/graph_lab/cmake-build-debug/CMakeFiles/graph_lab.dir/embed.manifest"
