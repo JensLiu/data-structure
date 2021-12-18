@@ -6,6 +6,7 @@
 #define GRAPH_LAB_ADJLIST_H
 
 #include "listentry.h"
+#include "../edge.h"
 
 template <typename EdgeInfo>
 class AdjList {
@@ -27,19 +28,20 @@ public:
         return srcList[sourceId].addEdge(destId, info, weight);
     }
 
-    bool removeEdge(const int& sourceId, const int& destId) {
+    Edge<EdgeInfo> removeEdge(const int& sourceId, const int& destId) {
         if (sourceId < 0 || sourceId >= srcList.size())
-            return false;
+            return Edge<EdgeInfo>();
         edgeCount--;
-        return srcList[sourceId].removeEdge(destId);
+        return srcList[sourceId].removeEdge(sourceId, destId);
     }
 
-    bool removeVertex(const int& vertexId) {
+    bool removeVertex(const int& vertexId,
+                      std::vector<Edge<EdgeInfo>>& removedEdges = std::vector<Edge<EdgeInfo>>()) {
         if (vertexId < 0 || vertexId > srcList.size() - 1)
             return false;
         srcList.erase(srcList.begin() + vertexId);
         for (ListEntry<EdgeInfo>& entry : srcList) {
-            entry.removeVertex(vertexId);
+            entry.removeVertex(vertexId, removedEdges);
         }
         return true;
     }

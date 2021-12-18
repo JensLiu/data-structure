@@ -6,6 +6,7 @@
 #define GRAPH_LAB_LISTENTRY_H
 
 #include "edgenode.h"
+#include "../edge.h"
 
 template <typename EdgeInfo>
 class ListEntry {
@@ -31,19 +32,24 @@ public:
         return true;
     }
 
-    bool removeEdge(const int& destId) {
+    Edge<EdgeInfo> removeEdge(const int& sourceId, const int& destId) {
         if (destId < 0 || destListHead == nullptr)
-            return false;
+            return Edge<EdgeInfo>();
 
         EdgeNode<EdgeInfo>* p = destListHead;
         while (p != nullptr) {
-            if (p->destId == destId)
+            if (p->destId == destId) {
+                Edge<EdgeInfo> removedEdge(sourceId, destId, p->info, p->weight);
                 removeNode(p);
+                return removedEdge;
+            }
             p = p->next;
         }
+        return Edge<EdgeInfo>();
     }
 
-    bool removeVertex(const int& vertexId) {
+    bool removeVertex(const int& vertexId,
+                      std::vector<Edge<EdgeInfo>>& removedEdges = std::vector<Edge<EdgeInfo>>()) {
         if (vertexId < 0)
             return false;
 
@@ -54,6 +60,7 @@ public:
         while (p != nullptr) {
             if (p->destId == vertexId) {
                 EdgeNode<EdgeInfo>* next = p->next;
+                removedEdges.push_back(Edge<EdgeInfo>(vertexId, p->destId, p->info, p->weight));
                 removeNode(p);
                 p = next;
                 continue;

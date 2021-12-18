@@ -14,7 +14,9 @@
 #include "edge.h"
 #include "queue"
 
+#ifndef DBL_MAX
 #define DBL_MAX __DBL_MAX__
+#endif
 
 template <typename VertexInfo, typename EdgeInfo>
 class Graph {
@@ -32,11 +34,26 @@ public:
         return adjList.addEdge(sourceId, destId, info, weight);
     }
 
-    bool removeVertexById(const int& vertexId) {
+    std::vector<Edge<EdgeInfo>> removeVertexById(const int& vertexId) {
         if (vertexId < 0 || vertexId > vertexMap.size() - 1)
-            return false;
+            return std::vector<Edge<EdgeInfo>>();
+        std::vector<Edge<EdgeInfo>> removedEdges;
+
+        EdgeNode<EdgeInfo>* p = adjList[vertexId].destListHead;
+        while (p != nullptr) {
+            removedEdges.push_back(Edge<EdgeInfo>(vertexId, p->destId, p->info, p->weight));
+            p = p->next;
+        }
+
         vertexMap.erase(vertexMap.begin() + vertexId);
-        return adjList.removeVertex(vertexId);
+        if (adjList.removeVertex(vertexId, removedEdges))
+            return removedEdges;
+
+        return std::vector<Edge<EdgeInfo>>();
+    }
+
+    Edge<EdgeInfo> removeEdgeById(const int& sourceId, const int& destId) {
+        return adjList.removeEdge(sourceId, destId);
     }
 
     int idOfVertex(const VertexInfo& data) {
@@ -50,7 +67,7 @@ public:
         return id;
     }
 
-    bool removeVertex(const VertexInfo& vertex) {
+    std::vector<Edge<EdgeInfo>> removeVertex(const VertexInfo& vertex) {
         int vertexId = idOfVertex(vertex);
         std::cout << "[debug:] removeVertex: found vertex (" << "id=" << vertexId << "value=" << vertex << ")" << std::endl;
         return removeVertexById(vertexId);
@@ -68,6 +85,20 @@ public:
             }
         }
         return addEdgeById(sourceId, destId, info, weight);
+    }
+
+    bool removeEdge(const VertexInfo& source, const VertexInfo& dest) {
+        int sourceId = -1;
+        int destId = -1;
+        for (int i = 0; i < vertexMap.size(); i++) {
+            if (vertexMap[i] == source) {
+                sourceId = i;
+            }
+            if (vertexMap[i] == dest) {
+                destId = i;
+            }
+        }
+        return removeEdgeById(sourceId, destId);
     }
 
     int totalVertices() const {
@@ -182,14 +213,6 @@ public:
                 p = p->next;
             }
         }
-
-//        for (int i = 0; i < totalVertices; i++) {
-//            std::cout << i << " ";
-//        }
-//        std::cout << std::endl;
-//        for (int i = 0; i < totalVertices; i++) {
-//            std::cout << dist[i] << " ";
-//        }
 
         return edges;
     }

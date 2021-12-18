@@ -8,45 +8,68 @@
 using namespace std;
 
 int main() {
-    Graph<char, int> g;
+    Graph<char, string> g;
 
     g.addVertex('A');
     g.addVertex('B');
     g.addVertex('C');
+
     g.addVertex('D');
     g.addVertex('E');
     g.addVertex('F');
+
     g.addVertex('G');
 
     // forward
-    g.addEdgeById(0, 1, 20, 4);
-    g.addEdgeById(0, 2, 20, 6);
-    g.addEdgeById(0, 3, 20, 6);
-    g.addEdgeById(1, 4, 20, 7);
-    g.addEdgeById(1, 2, 20, 1);
-    g.addEdgeById(2, 4, 20, 6);
-    g.addEdgeById(2, 5, 20, 4);
-    g.addEdgeById(3, 2, 20, 2);
-    g.addEdgeById(3, 5, 20, 5);
-    g.addEdgeById(4, 6, 20, 6);
-    g.addEdgeById(5, 4, 20, 1);
-    g.addEdgeById(5, 6, 20, 8);
+    g.addEdgeById(0, 1, "ab", 4);
+    g.addEdgeById(0, 2, "ac", 6);
+    g.addEdgeById(0, 3, "ad", 6);
+    g.addEdgeById(1, 4, "be", 7);
+    g.addEdgeById(1, 2, "bc", 1);
+    g.addEdgeById(2, 4, "ce", 6);
+    g.addEdgeById(2, 5, "cf", 4);
+    g.addEdgeById(3, 2, "dc", 2);
+    g.addEdgeById(3, 5, "df", 5);
+    g.addEdgeById(4, 6, "eg", 6);
+    g.addEdgeById(5, 4, "fe", 1);
+    g.addEdgeById(5, 6, "fg", 8);
 
     // backward
-    g.addEdgeById(1, 0, 20, 4);
-    g.addEdgeById(2, 0, 20, 6);
-    g.addEdgeById(3, 0, 20, 6);
-    g.addEdgeById(4, 1, 20, 7);
-    g.addEdgeById(2, 1, 20, 1);
-    g.addEdgeById(4, 2, 20, 6);
-    g.addEdgeById(5, 2, 20, 4);
-    g.addEdgeById(2, 3, 20, 2);
-    g.addEdgeById(5, 3, 20, 5);
-    g.addEdgeById(6, 4, 20, 6);
-    g.addEdgeById(4, 5, 20, 1);
-    g.addEdgeById(6, 5, 20, 8);
+    g.addEdgeById(1, 0, "ba", 4);
+    g.addEdgeById(2, 0, "ca", 6);
+    g.addEdgeById(3, 0, "da", 6);
+    g.addEdgeById(4, 1, "eb", 7);
+    g.addEdgeById(2, 1, "cb", 1);
+    g.addEdgeById(4, 2, "ec", 6);
+    g.addEdgeById(5, 2, "fc", 4);
+    g.addEdgeById(2, 3, "dc", 2);
+    g.addEdgeById(5, 3, "fd", 5);
+    g.addEdgeById(6, 4, "ge", 6);
+    g.addEdgeById(4, 5, "ef", 1);
+    g.addEdgeById(6, 5, "gf", 8);
 
 //    g.printAdjList();
+//    cout << "removed edge: " << g.removeEdgeById(1, 0) << endl;
+//    g.printAdjList();
+
+    g.printAdjList();
+    cout << "removed edges" << endl;
+    for (Edge<string> e : g.removeVertex('B')) {
+        cout << e << endl;
+    }
+    g.printAdjList();
+    g.printAdjList();
+    cout << "removed edges" << endl;
+    for (Edge<string> e : g.removeVertex('A')) {
+        cout << e << endl;
+    }
+    g.printAdjList();
+    g.printAdjList();
+    cout << "removed edges" << endl;
+    for (Edge<string> e : g.removeVertex('C')) {
+        cout << e << endl;
+    }
+    g.printAdjList();
 //    g.removeVertex('B');
 //    g.printAdjList();
 //    g.removeVertex('A'); // equivalent to g.removeVertexById(g.idOfVertex('A'))
@@ -75,7 +98,7 @@ int main() {
 //        cout << g.adjList[i].destListHead << " ";
 //    }
 
-    for (Edge<int> e : g.dijkstra()) {
-        cout << e << endl;
-    }
+//    for (Edge<int> e : g.dijkstra()) {
+//        cout << e << endl;
+//    }
 }
