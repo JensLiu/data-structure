@@ -8,6 +8,7 @@
 #include "../graph_adjlist.h"
 #include "../../../helper_ds/minheap.h"
 #include "../edge.h"
+#define DBL_MAX __DBL_MAX__
 #include <iomanip>
 
 void print_dist(const int& totalVertices, double* dist, const double& INF) {
@@ -33,8 +34,8 @@ void print_path(const int& id, int* parent) {
     print_path(parent[id], parent);
     std::cout << "->" << id;
 }
-
-void dijkstra(const int& sourceVertexId, const AdjList& adj, const int& totalVertices) {
+template <typename EdgeInfo>
+void dijkstra(const int& sourceVertexId, const AdjList<EdgeInfo>& adj, const int& totalVertices) {
     double* dist = new double[totalVertices];
     const double INF = DBL_MAX;
     for (int i = 0; i < totalVertices; i++) dist[i] = INF;
@@ -62,7 +63,7 @@ void dijkstra(const int& sourceVertexId, const AdjList& adj, const int& totalVer
         visited[idx] = 1;
 
         // relax
-        EdgeNode *p = adj[idx].destListHead;
+        EdgeNode<EdgeInfo> *p = adj[idx].destListHead;
         while (p != nullptr) {
             if (dist[idx] + p->weight < dist[p->destId]) {
                 dist[p->destId] = dist[idx] + p->weight;
@@ -78,35 +79,53 @@ void dijkstra(const int& sourceVertexId, const AdjList& adj, const int& totalVer
     print_path(6, parent);
 }
 
-void dijkstra_minheap(const int& sourceVertexId, const AdjList& adj, const int& totalVertices) {
-
-    MinHeap<Edge> heap;
-
+template <typename EdgeInfo>
+void dijkstra_minheap(const int& sourceVertexId, const AdjList<EdgeInfo>& adj, const int& totalVertices) {
+    MinHeap<Edge<EdgeInfo>> heap;
+    double* dist = new double[totalVertices];
+    double INF = DBL_MAX;
+    for (int i = 0; i < totalVertices; i++) {
+        dist[i] = INF;
+    }
     int* parent = new int[totalVertices];
     memset(parent, -1, totalVertices * sizeof(int));
     int* visited = new int[totalVertices];
     memset(visited, 0, totalVertices * sizeof(int));
+    visited[sourceVertexId] = 1;
+    dist[sourceVertexId] = 0;
 
-    EdgeNode* p = adj[sourceVertexId].destListHead;
+    EdgeNode<EdgeInfo>* p = adj[sourceVertexId].destListHead;
     while (p != nullptr) {
-        heap.insert(Edge(sourceVertexId, p->destId, p->weight));
+        heap.insert(Edge<EdgeInfo>(sourceVertexId, p->destId, p->weight));
         p = p->next;
     }
 
     while (!heap.empty()) {
-        Edge e = heap.extractMin();
-        if (visited[e.sourceId])
+        Edge<EdgeInfo> minEdge = heap.extractMin();
+        if (visited[minEdge.destId]) {
             continue;
-        visited[e.sourceId] = 1;
-//        std::cout << e.sourceId << " " << e.destId << std::endl;
-        parent[e.destId] = e.sourceId;
-        p = adj[e.destId].destListHead;
+        }
+        visited[minEdge.destId] = 1;
+        if (dist[minEdge.destId] > dist[minEdge.sourceId] + minEdge.edgeWeight) {
+            dist[minEdge.destId] = dist[minEdge.sourceId] + minEdge.edgeWeight;
+            parent[minEdge.destId] = minEdge.sourceId;
+        }
+        p = adj[minEdge.destId].destListHead;
         while (p != nullptr) {
-            heap.insert(Edge(e.destId, p->destId, e.pathLength + p->weight));
+            if (!visited[p->destId]) {
+                heap.insert(Edge<EdgeInfo>(minEdge.destId, p->destId, p->weight));
+            }
             p = p->next;
         }
     }
 
+    for (int i = 0; i < totalVertices; i++) {
+        std::cout << i << " ";
+    }
+    std::cout << std::endl;
+    for (int i = 0; i < totalVertices; i++) {
+        std::cout << dist[i] << " ";
+    }
     print_path(6, parent);
 }
 

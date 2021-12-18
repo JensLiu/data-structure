@@ -30,7 +30,7 @@ void kruskal(const AdjList& adj, const int& totalVertices, const int& totalEdges
 
 }
 
-std::vector<Edge> kruskal_minheap_findunion(const AdjList& adj, const int& totalVertices) {
+void kruskal_minheap_findunion(const AdjList& adj, const int& totalVertices) {
     FindUnion fu(totalVertices);
     MinHeap<Edge> heap;
     std::vector<Edge> edges;
@@ -53,7 +53,6 @@ std::vector<Edge> kruskal_minheap_findunion(const AdjList& adj, const int& total
         edges.push_back(cur);
     }
 
-    return edges;
 
 }
 

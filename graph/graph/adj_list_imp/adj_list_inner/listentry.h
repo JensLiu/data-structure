@@ -7,21 +7,22 @@
 
 #include "edgenode.h"
 
+template <typename EdgeInfo>
 class ListEntry {
 public:
-    EdgeNode* destListHead;
+    EdgeNode<EdgeInfo>* destListHead;
 
     ListEntry(const int& nodeId)
             : destListHead(nullptr) {};
 
-    bool addEdge(const int& destId, const double& weight = 0) {
+    bool addEdge(const int& destId, EdgeInfo info = EdgeInfo(), const double& weight = 0) {
         if (destId < 0)
             return false;
 
         if (destListHead == nullptr) {
-            destListHead = new EdgeNode(destId, weight);
+            destListHead = new EdgeNode<EdgeInfo>(destId, info, weight);
         } else {
-            EdgeNode* newEdge = new EdgeNode(destId, weight);
+            EdgeNode<EdgeInfo>* newEdge = new EdgeNode<EdgeInfo>(destId, info, weight);
             newEdge->next = destListHead;
             destListHead->prev = newEdge;
             destListHead = newEdge;
@@ -34,7 +35,7 @@ public:
         if (destId < 0 || destListHead == nullptr)
             return false;
 
-        EdgeNode* p = destListHead;
+        EdgeNode<EdgeInfo>* p = destListHead;
         while (p != nullptr) {
             if (p->destId == destId)
                 removeNode(p);
@@ -49,10 +50,10 @@ public:
         if (destListHead == nullptr)
             return false;
 
-        EdgeNode* p = destListHead;
+        EdgeNode<EdgeInfo>* p = destListHead;
         while (p != nullptr) {
             if (p->destId == vertexId) {
-                EdgeNode* next = p->next;
+                EdgeNode<EdgeInfo>* next = p->next;
                 removeNode(p);
                 p = next;
                 continue;
@@ -66,11 +67,13 @@ public:
     }
 
 private:
-    bool removeNode(EdgeNode* p) {
+    bool removeNode(EdgeNode<EdgeInfo>* p) {
         if (p == nullptr) {
             return false;
         } else if (p == destListHead) {
-            destListHead->next->prev = nullptr;
+            if (destListHead->next != nullptr) {
+                destListHead->next->prev = nullptr;
+            }
             destListHead = destListHead->next;
             delete p;
         } else {

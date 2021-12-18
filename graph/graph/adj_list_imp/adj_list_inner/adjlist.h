@@ -7,23 +7,24 @@
 
 #include "listentry.h"
 
+template <typename EdgeInfo>
 class AdjList {
 public:
-    std::vector<ListEntry> srcList;
+    std::vector<ListEntry<EdgeInfo>> srcList;
     int edgeCount = 0;
 
     bool addVertex(const int& vertexId) {
         if (vertexId < srcList.size())
             return false;
-        srcList.insert(srcList.begin() + vertexId, ListEntry(vertexId));
+        srcList.insert(srcList.begin() + vertexId, ListEntry<EdgeInfo>(vertexId));
         return true;
     }
 
-    bool addEdge(const int& sourceId, const int& destId, const double& weight = 0) {
+    bool addEdge(const int& sourceId, const int& destId, EdgeInfo info = EdgeInfo(), const double& weight = 0) {
         if (sourceId < 0 || sourceId >= srcList.size())
             return false;
         edgeCount++;
-        return srcList[sourceId].addEdge(destId, weight);
+        return srcList[sourceId].addEdge(destId, info, weight);
     }
 
     bool removeEdge(const int& sourceId, const int& destId) {
@@ -37,7 +38,7 @@ public:
         if (vertexId < 0 || vertexId > srcList.size() - 1)
             return false;
         srcList.erase(srcList.begin() + vertexId);
-        for (ListEntry entry : srcList) {
+        for (ListEntry<EdgeInfo>& entry : srcList) {
             entry.removeVertex(vertexId);
         }
         return true;
@@ -47,11 +48,11 @@ public:
         return srcList.size();
     }
 
-    ListEntry& operator[](const int& i) {
+    ListEntry<EdgeInfo>& operator[](const int& i) {
         return srcList[i];
     }
 
-    const ListEntry& operator[](const int& i) const {
+    const ListEntry<EdgeInfo>& operator[](const int& i) const {
         return srcList[i];
     }
 

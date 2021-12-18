@@ -9,38 +9,37 @@
 #include <vector>
 #include "../edge.h"
 
-void dfsVisit(const int& s, const AdjList& adj, int* parent, std::vector<Edge>& edges) {
-    EdgeNode* p = adj[s].destListHead;
+template <typename T>
+void dfsVisit(const int& s, const AdjList<T>& adj, int* parent) {
+    EdgeNode<T>* p = adj[s].destListHead;
     while (p != nullptr) {
         if (parent[p->destId] == -1) {
-            dfsVisit(p->destId, adj, parent, edges);
             parent[p->destId] = s;
-            edges.push_back(Edge(s, p->destId, p->weight));
+            dfsVisit(p->destId, adj, parent);
         }
         p = p->next;
     }
 }
 
-std::vector<Edge> dfs(const AdjList& adj, const int& totalVertices) {
+template <typename T>
+void dfs(const AdjList<T>& adj, const int& totalVertices) {
 
     int* parent = new int[totalVertices];
     memset(parent, -1, totalVertices * sizeof(int));
 
-    std::vector<Edge> edges;
 
     for (int i = 0; i < adj.entrySize(); i++) {
         if (parent[i] == -1 || i == 0)
-            dfsVisit(i, adj, parent, edges);
+            dfsVisit(i, adj, parent);
     }
 
-//    for (int i = 0; i < totalVertices; i++) {
-//        std::cout << "<" << parent[i] << ", " << i << ">" << std::endl;
-//    }
-
-
-    std::reverse(edges.begin(), edges.end());
-
-    return edges;
+    for (int i = 0; i < totalVertices; i++) {
+        std::cout << i << " ";
+    }
+    std::cout << std::endl;
+    for (int i = 0; i < totalVertices; i++) {
+        std::cout << parent[i] << " ";
+    }
 }
 
 

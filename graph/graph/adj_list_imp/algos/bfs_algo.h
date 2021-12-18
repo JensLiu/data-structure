@@ -10,12 +10,13 @@
 #include <queue>
 
 
-std::vector<Edge> bfs(const int& courseVertexId, const AdjList& adj, const int& totalVertices) {
+
+void bfs(const int& sourceVertexId, const AdjList& adj, const int& totalVertices) {
     std::queue<int> queue;
     std::vector<Edge> edges;
     int* parent = new int[totalVertices];
     memset(parent, -1, totalVertices * sizeof(int));
-    queue.push(0);
+    queue.push(sourceVertexId);
     while (!queue.empty()) {
         int cur = queue.front();
         queue.pop();
@@ -29,8 +30,6 @@ std::vector<Edge> bfs(const int& courseVertexId, const AdjList& adj, const int& 
             p = p->next;
         }
     }
-
-    return edges;
 
 }
 
