@@ -8,9 +8,9 @@
 #include <cstring>
 #include <algorithm>
 #include <iomanip>
-#include "adj_list_inner/adjlist.h"
-#include "../../helper_ds/minheap.h"
-#include "../../helper_ds/findunion.h"
+#include "adjlist.h"
+#include "minheap.h"
+#include "findunion.h"
 #include "edge.h"
 #include "queue"
 
