@@ -20,8 +20,10 @@ void MainWindow::init()
 {
     selectedEdge = nullptr;
     selectedVertex = nullptr;
+
     ui->m_graphView->setTextEdit_adjList(ui->plainTextEdit_adjList);
     ui->m_graphView->init();
+
     connect(ui->btn_addVertex, &QAbstractButton::clicked, this, [=](){
         ui->m_graphView->addVertex(ui->lineEdit_vertexValue->text());
     });
@@ -63,6 +65,7 @@ void MainWindow::init()
         }
         this->toAddSourceVertex = this->selectedVertex;
     });
+
     connect(ui->btn_destVertexSelect, &QPushButton::clicked, this, [=](){
         if (selectedVertex) {
             ui->label_selectedDestVertex->setText(QString::fromStdString(selectedVertex->getValue()));
@@ -107,22 +110,9 @@ void MainWindow::init()
     connect(ui->btn_prim, &QPushButton::clicked, ui->m_graphView, &GraphWidget::doPrim);
     connect(ui->btn_kruskal, &QPushButton::clicked, ui->m_graphView, &GraphWidget::doKruskal);
     connect(ui->btn_dijkstra, &QPushButton::clicked, ui->m_graphView, [=](){
-        ui->m_graphView->doDijkstra(this->spSourceVertex, this->spDestVertex);
+        if (this->spSourceVertex && this->spDestVertex)
+            ui->m_graphView->doDijkstra(this->spSourceVertex, this->spDestVertex);
     });
 
 }
-
-//void MainWindow::setToAddSourceVertex(VertexItem *vertex)
-//{
-//    this->toAddSourceVertex = vertex;
-//    ui->label_selectedSourceVertex->setText(QString::fromStdString(vertex->getValue()));
-////    disconnect(ui->m_graphView, &GraphWidget::vertexSelected, this, &MainWindow::setToAddSourceVertex);
-//}
-
-//void MainWindow::setToAddDestVertex(VertexItem *vertex)
-//{
-//    this->toAddDestVertex = vertex;
-//    ui->label_selectedDestVertex->setText(QString::fromStdString(vertex->getValue()));
-//    disconnect(ui->m_graphView, &GraphWidget::vertexSelected, this, &MainWindow::setToAddDestVertex);
-//}
 

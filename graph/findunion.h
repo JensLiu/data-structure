@@ -50,7 +50,5 @@ public:
         return find(m) == find(n);
     }
 
-
-
 };
 #endif //GRAPH_LAB_FINDUNION_H

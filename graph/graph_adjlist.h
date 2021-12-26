@@ -8,9 +8,9 @@
 #include <cstring>
 #include <algorithm>
 #include <iomanip>
-#include "adj_list_inner/adjlist.h"
-#include "../../helper_ds/minheap.h"
-#include "../../helper_ds/findunion.h"
+#include "adjlist.h"
+#include "minheap.h"
+#include "findunion.h"
 #include "edge.h"
 #include "queue"
 
@@ -56,6 +56,18 @@ public:
         return adjList.removeEdge(sourceId, destId);
     }
 
+    int inDegreeOfVertexById(const int& vertexId) {
+        if (vertexId < 0 || vertexId >= adjList.entrySize())
+            return -1;
+        return adjList[vertexId].getInDegree();
+    }
+
+    int outDegreeOfVertexById(const int& vertexId) {
+        if (vertexId < 0 || vertexId >= adjList.entrySize())
+            return -1;
+        return adjList[vertexId].getOutDegree();
+    }
+
     int idOfVertex(const VertexInfo& data) {
         int id = -1;
         for (int i = 0; i < vertexMap.size(); i++) {
@@ -67,9 +79,16 @@ public:
         return id;
     }
 
+    int inDegreeOfVertex(const VertexInfo& vertex) {
+        return inDegreeOfVertexById(idOfVertex(vertex));
+    }
+
+    int outDegreeOfVertex(const VertexInfo& vertex) {
+        return outDegreeOfVertexById(idOfVertex(vertexMap));
+    }
+
     std::vector<Edge<EdgeInfo>> removeVertex(const VertexInfo& vertex) {
         int vertexId = idOfVertex(vertex);
-        std::cout << "[debug:] removeVertex: found vertex (" << "id=" << vertexId << "value=" << vertex << ")" << std::endl;
         return removeVertexById(vertexId);
     }
 
@@ -112,7 +131,7 @@ public:
             std::cout << "((id=" << i << ", s=" << vertexMap[i] << "), [";
             EdgeNode<EdgeInfo>* p = vlist[i].destListHead;
             while (p != nullptr) {
-                std::cout << "(id=" << p->destId << ", d=" << vertexMap[p->destId] << "), ";
+                std::cout << "(id=" << p->destId << ", d=" << vertexMap[p->destId] << ", info=" << p->info << "), ";
                 p = p->next;
             }
             std::cout << "]), " << std::endl;
@@ -132,6 +151,31 @@ public:
             p = p->next;
         }
         return Edge<EdgeInfo>();
+    }
+
+    std::pair<int, int> degreeOfVertexById(const int& vertexId) {
+        int inDegree = 0;
+        int outDegree = 0;
+        for (int i = 0; i < adjList.entrySize(); i++) {
+            EdgeNode<EdgeInfo>* p = adjList[i].destListHead;
+            if (i == vertexId) {
+                while (p != nullptr) {
+                    outDegree++;
+                }
+            } else {
+                while (p != nullptr) {
+                    if (p->destId == vertexId) {
+                        inDegree++;
+                    }
+                    p = p->next;
+                }
+            }
+        }
+        return std::make_pair(inDegree, outDegree);
+    }
+
+    std::pair<int, int> degreeOfVertex(VertexInfo vertex) {
+        return degreeOfVertexById(idOfVertex(vertex));
     }
 
 public:
@@ -179,9 +223,22 @@ public:
         std::vector<Edge<EdgeInfo>> edges;
 
         for (int i = 0; i < adj.entrySize(); i++) {
-            if (parent[i] == -1)
+            if (parent[i] == -1 || parent[0] == -2)
                 dfsVisit(i, adj, parent, edges);
         }
+
+
+//        for (int i = 0; i < totalVertices; i++) {
+//            std::cout << std::setw(2) << vertexMap[i] << " ";
+//        }
+//        std::cout << std::endl;
+//        for (int i = 0; i < totalVertices; i++) {
+//            if (parent[i] >= 0) {
+//                std::cout << std::setw(2) << vertexMap[parent[i]] << " ";
+//            } else {
+//                std::cout << std::setw(2) << parent[i] << " ";
+//            }
+//        }
 
         std::reverse(edges.begin(), edges.end());
 
@@ -256,7 +313,6 @@ public:
     }
 
     std::vector<Edge<EdgeInfo>> prim(const int& sourceId, const AdjList<EdgeInfo>& adj, const int& totalVertices) {
-        using DistPair = std::pair<int, int>;
         using EdgeNode = EdgeNode<EdgeInfo>;
         using Edge = Edge<EdgeInfo>;
         double INF = DBL_MAX;
@@ -301,12 +357,12 @@ public:
             }
         }
 
-
         primPackResult(sourceId, parent, totalVertices, result);
         std::reverse(result.begin(), result.end());
         return result;
 
     }
+
 
     void dijkstraPackResult(int* parent, int totalVertices, std::vector<std::vector<Edge<EdgeInfo>>>& resultSet) {
         using EachPath = std::vector<Edge<EdgeInfo>>;

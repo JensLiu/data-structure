@@ -1,11 +1,29 @@
 #include <iostream>
 #include <vector>
 
-#include "graph/adj_list_imp/graph_adjlist.h"
+#include "graph_adjlist.h"
 using namespace std;
 
 int main() {
     Graph<char, string> g;
+//    g.addVertex('B');
+//    g.addVertex('D');
+//    g.addVertex('E');
+//    g.addVertex('F');
+//    g.addVertex('G');
+//    g.addVertex('N');
+//
+//    g.addEdge('B', 'E', "BE", 7);
+//    g.addEdge('E', 'G', "EG", 6);
+//    g.addEdge('E', 'B', "EB", 7);
+//    g.addEdge('G', 'E', "GE", 6);
+//    g.addEdge('E', 'F', "EF", 1);
+//    g.addEdge('F', 'E', "FE", 1);
+//    g.addEdge('F', 'G', "FG", 8);
+//    g.addEdge('D', 'F', "DF", 5);
+//    g.addEdge('G', 'F', "GF", 1);
+//    g.addEdge('N', 'D', "ND", 1);
+
 
     g.addVertex('A');
     g.addVertex('B');
@@ -44,6 +62,10 @@ int main() {
     g.addEdgeById(4, 5, "ef", 1);
     g.addEdgeById(6, 5, "gf", 8);
 
+    g.printAdjList();
+    for (Edge<string> e : g.dfs()) {
+        cout << e << endl;
+    }
 //    g.printAdjList();
 //    cout << "removed edge: " << g.removeEdgeById(1, 0) << endl;
 //    g.printAdjList();
@@ -53,13 +75,13 @@ int main() {
 //    for (Edge<string> e : g.removeVertex('B')) {
 //        cout << e << endl;
 //    }
+//    cout << endl;
 //    g.printAdjList();
 //    g.printAdjList();
 //    cout << "removed edges" << endl;
 //    for (Edge<string> e : g.removeVertex('A')) {
 //        cout << e << endl;
 //    }
-//    g.printAdjList();
 //    g.printAdjList();
 //    cout << "removed edges: [" << endl;
 //    for (Edge<string> e : g.removeVertex('C')) {
@@ -76,12 +98,12 @@ int main() {
 
 //    MinHeap<int> heap;
 //    for (int i = 0; i < 100; i++) {
-//        heap.insert((i * 2 + 1000) % 7);
+//        heap.insert(rand());
 //    }
 //    for (int i = 0; i < 100; i++) {
-//
 //        cout << heap.heap[i] << " " ;
 //    }
+//    cout << endl;
 //    cout << endl;
 //    for (int i = 0; i < 100; i++) {
 //        cout << heap.extractMin() << " ";
@@ -89,15 +111,22 @@ int main() {
 
 //    dijkstra(0, g.adjList, g.totalVertices());
 
-    for (int i = 1; i < g.totalVertices(); i++) {
-        for (vector<Edge<string>> result: g.dijkstra(i)) {
-            for (Edge<string> e: result) {
-                cout << e << " ";
-            }
-            cout << endl;
-        }
-        cout << endl;
-    }
+//    for (int i = 1; i < g.totalVertices(); i++) {
+//        for (vector<Edge<string>> result: g.dijkstra(i)) {
+//            for (Edge<string> e: result) {
+//                cout << e << " ";
+//            }
+//            cout << endl;
+//        }
+//        cout << endl;
+//    }
+
+//    for (vector<Edge<string>> each : g.dijkstra()) {
+//        for (Edge<string> e : each) {
+//            cout << e << " ";
+//        }
+//        cout << endl;
+//    }
 
 //    for (Edge<string> e : g.prim()) {
 //        cout << e << " ";

@@ -121,25 +121,25 @@ void GraphWidget::removeVertex(VertexItem *vertex)
 void GraphWidget::doDfs()
 {
     std::vector<Edge<EdgeItem*>> edges = Graph<VertexItem*, EdgeItem*>::dfs();
-    demostrate(edges);
+    demonstrate(edges);
 }
 
 void GraphWidget::doBfs()
 {
     std::vector<Edge<EdgeItem*>> edges = Graph<VertexItem*, EdgeItem*>::bfs();
-    demostrate(edges);
+    demonstrate(edges);
 }
 
 void GraphWidget::doPrim()
 {
     std::vector<Edge<EdgeItem*>> edges = Graph<VertexItem*, EdgeItem*>::prim();
-    demostrate(edges);
+    demonstrate(edges);
 }
 
 void GraphWidget::doKruskal()
 {
     std::vector<Edge<EdgeItem*>> edges = Graph<VertexItem*, EdgeItem*>::kruskal();
-    demostrate(edges);
+    demonstrate(edges);
 }
 
 void GraphWidget::doDijkstra(VertexItem* source, VertexItem* dest)
@@ -148,18 +148,45 @@ void GraphWidget::doDijkstra(VertexItem* source, VertexItem* dest)
     using EachResult = std::vector<Edge<EdgeItem*>>;
     using ThisGraph = Graph<VertexItem*, EdgeItem*>;
     using Edge = Edge<EdgeItem*>;
-    std::cout << source << " " << dest;
-//    std::cout << Graph::idOfVertex(source) << Graph::idOfVertex(dest);
     ResultSet results = ThisGraph::dijkstra(ThisGraph::idOfVertex(source));
-    std::cout << "dijkstra" << std::endl;
-    for (EachResult result : results) {
-        if (result.size() > 0 && result.at(result.size() - 1).info->destNode() == dest) {
-            demostrate(result);
+
+
+    int done = 0;
+    for (int i = 0; !done && i < results.size(); i++) {
+        for (int j = 0; !done && j < results[i].size(); j++) {
+            if (results[i][j].info->destNode() == dest) {
+                demonstrate(results[i], j);
+                done = 1;
+            }
         }
+    }
+
+}
+
+void GraphWidget::demonstrate(std::vector<Edge<EdgeItem*>> edges, int end) {
+    for (int i = 0; i <= end; i++) {
+        Edge<EdgeItem*> edge = edges[i];
+        edge.info->setVisited(true);
+        this->vertexMap[edge.destId]->setVisited(true);
+        this->vertexMap[edge.sourceId]->setVisited(true);
+        vertexMap[edge.destId]->update();
+        vertexMap[edge.sourceId]->update();
+        edge.info->update();
+        QApplication::processEvents();
+        QThread::sleep(1);
+    }
+    for (int i = 0; i <= end; i++) {
+        Edge<EdgeItem*> edge = edges[i];
+        edge.info->setVisited(false);
+        this->vertexMap[edge.destId]->setVisited(false);
+        this->vertexMap[edge.sourceId]->setVisited(false);
+        vertexMap[edge.destId]->update();
+        vertexMap[edge.sourceId]->update();
+        edge.info->update();
     }
 }
 
-void GraphWidget::demostrate(std::vector<Edge<EdgeItem*>> edges)
+void GraphWidget::demonstrate(std::vector<Edge<EdgeItem*>> edges)
 {
     for (Edge<EdgeItem*> edge : edges) {
         edge.info->setVisited(true);

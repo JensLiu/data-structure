@@ -6,7 +6,7 @@
 #define GRAPH_LAB_ADJLIST_H
 
 #include "listentry.h"
-#include "../edge.h"
+#include "edge.h"
 
 template <typename EdgeInfo>
 class AdjList {
@@ -25,6 +25,8 @@ public:
         if (sourceId < 0 || sourceId >= srcList.size())
             return false;
         edgeCount++;
+        srcList[sourceId].outDegree++;
+        srcList[destId].inDegree++;
         return srcList[sourceId].addEdge(destId, info, weight);
     }
 
@@ -32,6 +34,8 @@ public:
         if (sourceId < 0 || sourceId >= srcList.size())
             return Edge<EdgeInfo>();
         edgeCount--;
+        srcList[sourceId].outDegree--;
+        srcList[destId].inDegree--;
         return srcList[sourceId].removeEdge(sourceId, destId);
     }
 

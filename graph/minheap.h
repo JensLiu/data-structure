@@ -10,11 +10,6 @@ class MinHeap {
 public:
     std::vector<T> heap;
 
-    bool (*compare)(T self, T other);
-    void setCompare(bool (*compare)(T self, T other)) {
-        this->compare = compare;
-    }
-
     int left(const int& i) { return i * 2 + 1; };
     int right(const int& i) { return i * 2 + 2; };
     int parent(const int& i) { return i / 2; };

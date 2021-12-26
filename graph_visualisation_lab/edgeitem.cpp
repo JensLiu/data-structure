@@ -136,8 +136,6 @@ void EdgeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidge
     qreal destY = dest->y();
     painter->setPen(QPen(Qt::darkGray));
     painter->drawText(QPointF((srcX + destX) / 2, (srcY + destY) / 2),QString::number(weight));
-
-    // Draw the line itself
     if (visited) {
         painter->setPen(QPen(Qt::black, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     }

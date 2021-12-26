@@ -84,8 +84,8 @@ protected:
 private:
     bool visited = false;
     bool pressed = false;
-    VertexItem *source, *dest;
     double weight;
+    VertexItem *source, *dest;
     QPointF sourcePoint;
     QPointF destPoint;
     qreal arrowSize;

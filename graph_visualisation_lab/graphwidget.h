@@ -91,7 +91,8 @@ public slots:
     void doPrim();
     void doKruskal();
     void doDijkstra(VertexItem* source, VertexItem* dest);
-    void demostrate(std::vector<Edge<EdgeItem*>>);
+    void demonstrate(std::vector<Edge<EdgeItem*>>);
+    void demonstrate(std::vector<Edge<EdgeItem*>> edges, int end);
     void showAdjList();
 
 signals:

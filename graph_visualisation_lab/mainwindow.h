@@ -21,14 +21,14 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    VertexItem* selectedVertex;
-    EdgeItem* selectedEdge;
+    VertexItem* selectedVertex = nullptr;
+    EdgeItem* selectedEdge = nullptr;
 
-    VertexItem* toAddSourceVertex;
-    VertexItem* toAddDestVertex;
+    VertexItem* toAddSourceVertex = nullptr;
+    VertexItem* toAddDestVertex = nullptr;
 
-    VertexItem* spSourceVertex;
-    VertexItem* spDestVertex;
+    VertexItem* spSourceVertex = nullptr;
+    VertexItem* spDestVertex = nullptr;
 
 };
 #endif // MAINWINDOW_H

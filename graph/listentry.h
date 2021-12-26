@@ -6,15 +6,17 @@
 #define GRAPH_LAB_LISTENTRY_H
 
 #include "edgenode.h"
-#include "../edge.h"
+#include "edge.h"
 
 template <typename EdgeInfo>
 class ListEntry {
 public:
     EdgeNode<EdgeInfo>* destListHead;
+    int inDegree;
+    int outDegree;
 
     ListEntry(const int& nodeId)
-            : destListHead(nullptr) {};
+            : destListHead(nullptr), inDegree(0), outDegree(0) {};
 
     bool addEdge(const int& destId, EdgeInfo info = EdgeInfo(), const double& weight = 0) {
         if (destId < 0)
@@ -69,8 +71,14 @@ public:
                 p->destId--;
             p = p->next;
         }
+    }
 
+    int getInDegree() {
+        return inDegree;
+    }
 
+    int getOutDegree() {
+        return outDegree;
     }
 
 private:
