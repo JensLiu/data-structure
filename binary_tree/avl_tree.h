@@ -17,17 +17,17 @@ public:
                 // left heavy
                 if (nodeHeight(node->left->left) >= nodeHeight(node->left->right)) {
                     // doubly left heavy
-                    rightRotate(node);
+                    this->rightRotate(node);
                 } else {
-                    leftRotate(node->left);
-                    rightRotate(node);
+                    this->leftRotate(node->left);
+                    this->rightRotate(node);
                 }
             } else if (nodeHeight(node->right) >= 2 + nodeHeight(node->left)) {
                 if (nodeHeight(node->right->right) >= nodeHeight(node->right->left)) {
-                    leftRotate(node);
+                    this->leftRotate(node);
                 } else {
-                    rightRotate(node->right);
-                    leftRotate(node);
+                    this->rightRotate(node->right);
+                    this->leftRotate(node);
                 }
             }
             node = node->parent;

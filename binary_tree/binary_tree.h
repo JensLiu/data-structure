@@ -8,6 +8,10 @@
 #include "bst_node.h"
 #include <iostream>
 #include <iomanip>
+#include <cmath>
+#ifndef UINT32_MAX
+#define UINT32_MAX __UINT32_MAX__
+#endif
 // the use of standard template library is only for
 // breath first search, iterative implementation of tree traversal
 // and printing tree in the console

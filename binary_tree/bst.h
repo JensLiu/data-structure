@@ -236,7 +236,7 @@ private:
 
 public:
 
-     BSTNode<T>* insert(T key) {
+     virtual BSTNode<T>* insert(T key) {
         if (this->root == nullptr) {
             this->root = new BSTNode<T>(key);
         }
@@ -244,7 +244,7 @@ public:
         return node;
     }
 
-     BSTNode<T>* deleteNode(T key) {
+     virtual BSTNode<T>* deleteNode(T key) {
         if (this->root == nullptr) {
             return nullptr;
         }
@@ -285,7 +285,7 @@ public:
         }
     }
 
-    BSTNode<T>* deleteNode_iterative(T key) {
+    virtual BSTNode<T>* deleteNode_iterative(T key) {
         if (this->root == nullptr) {
             return nullptr;
         }
@@ -304,7 +304,7 @@ public:
         }
     }
 
-    virtual void leftRotate(BSTNode<T>* node) {
+    void leftRotate(BSTNode<T>* node) {
         BSTNode<T>* x = node;
         BSTNode<T>* y = node->right;
         BSTNode<T>* p = x->parent;
@@ -326,7 +326,7 @@ public:
         updateHeight(y);
     }
 
-    virtual void rightRotate(BSTNode<T>* node) {
+    void rightRotate(BSTNode<T>* node) {
         BSTNode<T>* x = node;
         BSTNode<T>* y = node->left;
         BSTNode<T>* p = x->parent;

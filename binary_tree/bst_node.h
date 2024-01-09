@@ -5,6 +5,8 @@
 #ifndef BINARY_TREE_LAB_BST_NODE_H
 #define BINARY_TREE_LAB_BST_NODE_H
 
+#include <algorithm>
+
 template <typename T>
 class BSTNode {
 public:
@@ -135,6 +137,6 @@ int nodeHeight(BSTNode<T>* node) {
  */
 template <typename T>
 void updateHeight(BSTNode<T>* node) {
-    node->height = max(nodeHeight(node->left), nodeHeight(node->right)) + 1;
+    node->height = std::max(nodeHeight(node->left), nodeHeight(node->right)) + 1;
 }
 #endif //BINARY_TREE_LAB_BST_NODE_H
