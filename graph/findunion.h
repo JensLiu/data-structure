@@ -23,6 +23,11 @@ public:
         count = n;
     }
 
+    ~FindUnion() {
+        delete parent;
+        delete size;
+    }
+
     int find(int n) {
         while (parent[n] != n) {
             n = parent[n];
