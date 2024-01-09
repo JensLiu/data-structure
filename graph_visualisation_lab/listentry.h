@@ -69,8 +69,7 @@ public:
                 p->destId--;
             p = p->next;
         }
-
-
+        return true;
     }
 
 private:
