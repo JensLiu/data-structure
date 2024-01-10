@@ -1,3 +1,0 @@
-D:/OneDrive/Education/UniCN/Computer Science/Data Structure and Algorithm/stack/cmake-build-debug/CMakeFiles/stack.dir
-D:/OneDrive/Education/UniCN/Computer Science/Data Structure and Algorithm/stack/cmake-build-debug/CMakeFiles/edit_cache.dir
-D:/OneDrive/Education/UniCN/Computer Science/Data Structure and Algorithm/stack/cmake-build-debug/CMakeFiles/rebuild_cache.dir
