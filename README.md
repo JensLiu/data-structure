@@ -1,18 +1,13 @@
 # Data Structure
 
-<aside>
-💡 Reference: ***Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein. 2009. Introduction to Algorithms, Third Edition (3rd. ed.). The MIT Press.***
-
-</aside>
+💡 Reference: Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein. 2009. Introduction to
+Algorithms, Third Edition (3rd. ed.). The MIT Press.
 
 # Linked List
 
 [See the project](https://github.com/JensLiu/data-structure/tree/main/linked_list)
 
-<aside>
 💡 This implementation is a circular doubly linked list
-
-</aside>
 
 ### Operations
 
@@ -25,10 +20,9 @@
 - `saveToFile`: save the list to a binary file
 - `readFromFile`: read the binary file to a list
 - `quickSort` the list
-    
-    <aside>
-    👉🏻 Example
-    
+
+  👉 Example
+
     ```cpp
     // generate random numbers
     LinkedList<int> list;
@@ -53,42 +47,24 @@
     std::cout << "\nsort success\n";
     return 0;
     ```
-    
-    </aside>
-    
 
 # Binary Tree
 
 [See the project](https://github.com/JensLiu/data-structure/tree/main/binary_tree)
 
-<aside>
-💡 Reference: ***CLRS*** : chap. 12-13
-
-</aside>
+💡 Reference: CLRS : chap. 12-13
 
 ## `BSTNode` is a generic tree node for Binary Tree, BST, AVL Tree and Red-Black Tree
 
 It contains generic metadata about its `parent`, `left` child, `right` child and its `key`
 
-<aside>
 💡 For AVL tree, it stores its `height` for balancing purpose. It is updated on each operation
 
-</aside>
-
-<aside>
 💡 For red-black tree, it stores its `nodeColour` and whether it `isNilNode`
 
-</aside>
-
-<aside>
 💡 See `bst_node.h`
 
-</aside>
-
-<aside>
 👀 It should be better named as `BTNode` rather than `BSTNode` …
-
-</aside>
 
 ```cpp
 template <typename T>
@@ -113,10 +89,7 @@ public:
 
 It only maintains its `root` node
 
-<aside>
 💡 see `binary_tree.h`
-
-</aside>
 
 ```cpp
 template <typename T>
@@ -132,19 +105,11 @@ protected:
 
 - check if this tree `isBST`
 - doing recursive and iterative `preOrderWalk`, `inOrderWalk` and `postOrderWalk` sequence
-    
-    <aside>
-    👉🏻 Example
-    
-    </aside>
-    
-- construct binary tree using pre-order and in-order sequences`preAndInWalkInsert`, or post-order and in-order sequence `postAndInWalkInsert`.
-    
-    <aside>
-    👉🏻 Example
-    
-    Code
-    
+
+- construct binary tree using pre-order and in-order sequences`preAndInWalkInsert`, or post-order and in-order
+  sequence `postAndInWalkInsert`.
+
+  👉 Example
     ```cpp
     BinaryTree<int> intBT;
     int preOrder[5] = {1, 2, 3, 4, 5};
@@ -152,40 +117,20 @@ protected:
     intBT.preAndInWalkInsert(preOrder, inOrder, 5);
     intBT.printTree(1); // arg: width
     ```
-    
-    Result
-    
-    ![construction](./doc/assets/tree_construction.png)
-    
-    </aside>
-    
+  ![construction](./doc/assets/tree_construction.png)
+
 - print the binary tree in a tree-like manner `printTree`
-    
-    <aside>
-    👉🏻 Example
-    
-    Code
-    
+
+  👉 Example
     ```cpp
     BinaryTree<char> charBT;
     charBT.preAndInWalkInsert("ABDGCEF", "DGBAECF", 7);
     charBT.printTree(1); // arg: width
     ```
-    
-    Result
-    
-    ![print](./doc/assets/tree_print.png)
-    
-    </aside>
-    
+  ![print](./doc/assets/tree_print.png)
 
 ## `BST` is a binary tree that holds the BST property
-
-<aside>
 💡 see `bst.h`
-
-</aside>
-
 ```cpp
 template <typename T>
 class BST : public BinaryTree<T> {
@@ -202,41 +147,23 @@ Some important operations
 
 ## `AVL` tree is a self-balancing BST
 
-<aside>
 💡 see `avl_tree.h`
 
-</aside>
-
-<aside>
 💡 It calls `rebalance` after every `insert` and `delete`
 
-</aside>
-
-<aside>
 👀 Example: insert
 
 ![insert](./doc/assets/avl_insert.png)
 
-</aside>
-
-<aside>
 👀 Example: remove
 
 ![remove](./doc/assets/avl_remove.png)
 
-</aside>
-
 ## `RBTree` is a self-balancing BST
 
-<aside>
 💡 see `re_tree.h`
 
-</aside>
-
-<aside>
 👀 It holds a universal `nil` node as the child of every leaf node
-
-</aside>
 
 ```cpp
 template <typename T>
@@ -247,55 +174,33 @@ class RBTree {
 }
 ```
 
-<aside>
-👀 Only insert rebalance is implemented…
+👀 Only insert re-balance is implemented…
 
-</aside>
-
-<aside>
 👀 Example: insert
 
 ![insert](./doc/assets/rb_insert.png)
-
-</aside>
 
 # Graph
 
 [See the project](https://github.com/JensLiu/data-structure/tree/main/graph)
 
-<aside>
 💡 This implementation uses adjacency list
 
-</aside>
+💡 Reference CLRS: chap. 22-24
 
-<aside>
-💡 Reference ***CLRS***: chap. 22-24
-
-</aside>
-
-<aside>
-💡 Structure Overview
+## Structure Overview
 
 ![graph](./doc/assets/graph_structure.png)
 
-<aside>
-💡 This structure separates the keys of the vertices (`VertexInfo`) from the ids (indices in the `VertexMap`) of the vertices
+💡 This structure separates the keys of the vertices (`VertexInfo`) from the ids (indices in the `VertexMap`) of the
+vertices
 
-</aside>
-
-<aside>
 💡 Deleting a vertex is expensive, it involves a complete scan in the adjacency list and a shift in the vertex map
 
-</aside>
+💡 Optimisation: replace `std::vector` in the `VertexMap` with a hash map and a monotonically increasing counter to
+assign ids.
 
-<aside>
-💡 Optimisation: replace `std::vector` in the `VertexMap` with a hash map and a monotonically increasing counter to assign ids.
-
-</aside>
-
-</aside>
-
-### Some Operations
+## Some Operations
 
 - `addVertex` to the graph
 - get `idOfVertex` by its unique key (`VertexInfo`)
@@ -304,7 +209,7 @@ class RBTree {
 - `findEdge` using `sourceId` and `destId` of the source and destination vertex
 - `removeEdge` or `removeEdgeById`
 
-### Algorithms
+## Algorithms
 
 - Breadth-first search (`bfs`)
 - Depth-first search(`dfs`)
@@ -312,44 +217,20 @@ class RBTree {
 - Kruskal’s algorithm (`kruskal`)
 - Prim’s algorithm (`prime`)
 
-<aside>
-💡 Example: visualisation using Qt
+# Graph Visualisation using Qt
 
 [See the project](https://github.com/JensLiu/data-structure/tree/main/graph_visualisation_lab)
 
 Based on the Elastic Nodes Example project, the documentation is as follows
-
 [Elastic Nodes Example | Qt Widgets 5.15.16](https://doc.qt.io/qt-5/qtwidgets-graphicsview-elasticnodes-example.html)
 
-<aside>
-⚠️ Only the arrow of each edge changes colour
-
+⚠️ Only the arrow of each edge changes colour </br>
 Edges are overlapped since we are representing an undirected graph using a directed graph
 
-</aside>
-
-- Depth-first search visualisation
+- Depth-first search visualisation [demo video](https://youtu.be/cqomDOezHR4)
+- Breadth-first search [demo video](https://youtu.be/8KfNZS-bva8)
+- Kruskal [demo video](https://youtu.be/ZUjptrScf3Y)
+- Prim’s algorithm [demo video](https://youtu.be/4Xm-g0DdI5g)
+- Dijkstra’s algorithm [demo video](https://youtu.be/9Gd1DsD32mg?si=0ccBLgS_-HWF2sdT)
+- Add and remove vertices and edges [demo video](https://youtu.be/0qTjdJhIVvk)
     
-    [demo](https://youtu.be/cqomDOezHR4)
-    
-- Breadth-first search
-    
-    [demo](https://youtu.be/8KfNZS-bva8)
-    
-- Kruskal
-    
-    [demo](https://youtu.be/ZUjptrScf3Y)
-    
-- Prim’s algorithm
-    
-    [demo](https://youtu.be/4Xm-g0DdI5g)
-    
-- Dijkstra’s algorithm
-    
-    [demo](https://youtu.be/9Gd1DsD32mg?si=0ccBLgS_-HWF2sdT)
-    
-- Add and remove vertices and edges
-    
-    [demo](https://youtu.be/0qTjdJhIVvk)
-    
-</aside>
